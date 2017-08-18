@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2016 Magento. All rights reserved.
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 namespace MagentoDevBox\Command\Pool;
@@ -119,6 +119,8 @@ class MagentoFinalize extends AbstractCommand
             $this->executeCommands(sprintf('cd %s && php bin/magento indexer:reindex', $magentoPath), $output);
         }
 
+        $this->executeCommands(sprintf('cd %s && php bin/magento cache:clean', $magentoPath), $output);
+
         if ($this->requestOption(MagentoOptions::WARM_UP_STOREFRONT, $input, $output)) {
             $storeFrontUrl = $this->getMagentoUrl($input);
             $this->updateApacheConfig($storeFrontUrl);
@@ -141,20 +143,6 @@ class MagentoFinalize extends AbstractCommand
                 $this->executeCommands(sprintf('touch %s', $syncMarkerPath), $output);
             }
         }
-
-        // setup configs for integration tests
-        copy(
-            sprintf('%s/dev/tests/integration/phpunit.xml.dist', $magentoPath),
-            sprintf('%s/dev/tests/integration/phpunit.xml', $magentoPath)
-        );
-        copy(
-            sprintf('%s/dev/tests/integration/etc/config-global.php.dist', $magentoPath),
-            sprintf('%s/dev/tests/integration/etc/config-global.php', $magentoPath)
-        );
-        copy(
-            sprintf('%s/dev/tests/integration/etc/install-config-mysql.travis.php.dist', $magentoPath),
-            sprintf('%s/dev/tests/integration/etc/install-config-mysql.travis.php', $magentoPath)
-        );
 
         chmod(sprintf('%s/bin/magento', $magentoPath), 0750);
     }
