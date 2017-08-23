@@ -127,7 +127,7 @@ class MagentoFinalize extends AbstractCommand
             $this->executeCommands(
                 [
                     'sudo service apache2 restart',
-                    sprintf('cd /tmp && wget -E -H -k -K -p %s', $storeFrontUrl)
+                    sprintf('cd /tmp && echo Warming caches && wget -E -H -k -K -p %s >/dev/null 2>&1 || true', $storeFrontUrl)
                 ],
                 $output
             );

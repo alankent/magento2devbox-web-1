@@ -12,7 +12,6 @@ class WebServer extends AbstractOptions
 {
     const HOST = 'webserver-host';
     const PORT = 'webserver-port';
-    const HOME_PORT = 'webserver-home-port';
 
     /**
      * {@inheritdoc}
@@ -29,12 +28,6 @@ class WebServer extends AbstractOptions
                 'default' => '80',
                 'description' => 'Web server port.',
                 'question' => 'Please enter web server port %default%'
-            ],
-            static::HOME_PORT => [
-                'default' => 1748,
-                'description' => 'Web server port for the home machine.',
-                'question' => 'Please enter web server port for the home machine'
-                    . '. See docker-compose.yml -> web -> ports -> xxxx:80, where xxxx - is home port %default%'
             ]
         ];
     }
