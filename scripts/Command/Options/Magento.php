@@ -25,7 +25,6 @@ class Magento extends AbstractOptions
     const DI_COMPILE = 'magento-di-compile';
     const CRON_RUN = 'magento-cron-run';
     const VERSION = 'magento-version';
-    const WARM_UP_STOREFRONT = 'magento-warm-up-storefront';
     const STATE_PATH = 'magento-state-path';
     const ENABLE_SYNC_MARKER = 'magento-enable-sync-marker';
 
@@ -109,12 +108,6 @@ class Magento extends AbstractOptions
                 'default' => static::getDefaultValue('MAGENTO_CRON_RUN', false),
                 'description' => 'Whether to generate crontab file for Magento.',
                 'question' => 'Do you want to generate crontab file for Magento? %default%'
-            ],
-            static::WARM_UP_STOREFRONT => [
-                'boolean' => true,
-                'default' => static::getDefaultValue('MAGENTO_WARM_UP_STOREFRONT', true),
-                'description' => 'Whether to warm up storefront for Magento.',
-                'question' => 'Do you want to warm up storefront for Magento to speed up first page load? %default%'
             ],
             static::STATE_PATH => [
                 'default' => static::getDefaultValue('MAGENTO_STATE_PATH', '/home/magento2/state'),

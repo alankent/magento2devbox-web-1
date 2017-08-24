@@ -48,7 +48,7 @@ class MagentoSetup extends AbstractCommand
         $magentoAdminPassword = $this->requestOption(MagentoOptions::ADMIN_PASSWORD, $input, $output);
 
         $command = sprintf(
-            'cd %s && php bin/magento setup:install'
+            'cd %s && magento setup:install'
                 . ' --db-host=%s --db-name=%s'
                 . ' --db-user=%s --db-password=%s --admin-firstname=Magento --admin-lastname=User'
                 . ' --admin-email=user@example.com --admin-user=%s --admin-password=%s'
@@ -66,7 +66,7 @@ class MagentoSetup extends AbstractCommand
 
         if ($this->requestOption(RabbitMqOptions::SETUP, $input, $output)) {
             $amqpModuleExist = exec(
-                sprintf('cd %s && php bin/magento module:status | grep Magento_Amqp', $magentoPath)
+                sprintf('cd %s && magento module:status | grep Magento_Amqp', $magentoPath)
             );
 
             if ($amqpModuleExist) {
@@ -101,8 +101,8 @@ class MagentoSetup extends AbstractCommand
             XDebugSwitcher::switchOff();
             $this->executeCommands(
                 [
-                    sprintf('cd %s && php bin/magento sampledata:deploy', $magentoPath),
-                    sprintf('cd %s && php bin/magento setup:upgrade', $magentoPath)
+                    sprintf('cd %s && magento sampledata:deploy', $magentoPath),
+                    sprintf('cd %s && magento setup:upgrade', $magentoPath)
                 ],
                 $output
             );

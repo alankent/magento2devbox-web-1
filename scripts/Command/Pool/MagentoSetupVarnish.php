@@ -152,7 +152,7 @@ class MagentoSetupVarnish extends AbstractCommand
 
         $this->executeCommands(
             sprintf(
-                'cd %s && php bin/magento cache:clean config',
+                'cd %s && magento cache:clean config',
                 $this->requestOption(MagentoOptions::PATH, $input, $output)
             ),
             $output

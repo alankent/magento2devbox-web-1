@@ -20,6 +20,8 @@ RUN apt-get update \
       libpng12-dev \
       git \
       vim \
+      nano \
+      telnet \
       openssh-server \
       supervisor \
       mysql-client \
@@ -48,6 +50,7 @@ RUN apt-get update \
  && mkdir /var/run/sshd \
  && apt-get clean \
  && apt-get update \
+ && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs \
  && ln -s /usr/bin/nodejs /usr/bin/node \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y npm \
@@ -146,9 +149,11 @@ RUN chown -R magento2:magento2 /home/magento2 \
 # Delete user password to connect with ssh with empty password
 RUN passwd magento2 -d
 
+
 EXPOSE 80 22 5000 44100
 WORKDIR /home/magento2
 
 USER root
+ENV SHELL /bin/bash
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

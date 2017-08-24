@@ -83,7 +83,7 @@ class MagentoSetupElasticSearch extends AbstractCommand
         }
 
         $this->executeCommands(
-            sprintf('cd %s && php bin/magento cache:clean config', $input->getOption(MagentoOptions::PATH)),
+            sprintf('cd %s && magento cache:clean config', $input->getOption(MagentoOptions::PATH)),
             $output
         );
     }

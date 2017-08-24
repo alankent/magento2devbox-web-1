@@ -9,6 +9,7 @@ use MagentoDevBox\Command\AbstractCommand;
 use MagentoDevBox\Command\Options\Magento as MagentoOptions;
 use MagentoDevBox\Command\Options\MagentoCloud as MagentoCloudOptions;
 use MagentoDevBox\Command\Options\Composer as ComposerOptions;
+use MagentoDevBox\Command\Options\Db as DbOptions;
 use MagentoDevBox\Library\Registry;
 use MagentoDevBox\Library\XDebugSwitcher;
 use Symfony\Component\Console\Input\InputInterface;
@@ -126,12 +127,15 @@ class MagentoDownload extends AbstractCommand
                 [
                     sprintf(
                         'cd %s && %s composer create-project --repository-url=https://repo.magento.com/'
-                        . ' magento/project-%s-edition%s .',
+                        . ' magento/project-%s-edition%s . && chmod +x bin/magento',
                         $magentoPath,
                         $customAuth,
                         $edition,
                         $version
-                    )
+                    ),
+		    # New project, make sure don't use left over database settings.
+		    'mysql -e "DROP DATABASE IF EXISTS magento2;"',
+		    'mysql -e "CREATE DATABASE IF NOT EXISTS magento2;"'
                 ],
                 $output
             );

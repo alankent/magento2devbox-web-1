@@ -34,13 +34,6 @@ class MagentoFinalize extends AbstractCommand
     private $dbConfigScopeId = 0;
 
     /**
-     * Configuration path in the DB
-     *
-     * @var string
-     */
-    private $dbConfigPath = 'web/unsecure/base_url';
-
-    /**
      * Apache configuration file
      *
      * @var string
@@ -65,15 +58,15 @@ class MagentoFinalize extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $magentoPath = $input->getOption(MagentoOptions::PATH);
-        $this->executeCommands(sprintf('cd %s && php bin/magento deploy:mode:set developer', $magentoPath), $output);
+        $this->executeCommands(sprintf('cd %s && magento deploy:mode:set developer', $magentoPath), $output);
 
         if ($this->requestOption(MagentoOptions::DI_COMPILE, $input, $output)) {
-            $this->executeCommands(sprintf('cd %s && php bin/magento setup:di:compile', $magentoPath), $output);
+            $this->executeCommands(sprintf('cd %s && magento setup:di:compile', $magentoPath), $output);
         }
 
         if ($this->requestOption(MagentoOptions::STATIC_CONTENTS_DEPLOY, $input, $output)) {
             $this->executeCommands(
-                sprintf('cd %s && php bin/magento setup:static-content:deploy', $magentoPath),
+                sprintf('cd %s && magento setup:static-content:deploy', $magentoPath),
                 $output
             );
         } elseif ($this->requestOption(MagentoOptions::GRUNT_COMPILE, $input, $output)) {
@@ -116,22 +109,10 @@ class MagentoFinalize extends AbstractCommand
         }
 
         if (ModuleExistence::isModuleExists($input->getOption(MagentoOptions::PATH), ElasticSearchOptions::ELASTIC_MODULE_NAME)) {
-            $this->executeCommands(sprintf('cd %s && php bin/magento indexer:reindex', $magentoPath), $output);
+            $this->executeCommands(sprintf('cd %s && magento indexer:reindex', $magentoPath), $output);
         }
 
-        $this->executeCommands(sprintf('cd %s && php bin/magento cache:clean', $magentoPath), $output);
-
-        if ($this->requestOption(MagentoOptions::WARM_UP_STOREFRONT, $input, $output)) {
-            $storeFrontUrl = $this->getMagentoUrl($input);
-            $this->updateApacheConfig($storeFrontUrl);
-            $this->executeCommands(
-                [
-                    'sudo service apache2 restart',
-                    sprintf('cd /tmp && echo Warming caches && wget -E -H -k -K -p %s >/dev/null 2>&1 || true', $storeFrontUrl)
-                ],
-                $output
-            );
-        }
+        $this->executeCommands(sprintf('cd %s && magento cache:clean', $magentoPath), $output);
 
         $enableSyncMarker = $input->getOption(MagentoOptions::ENABLE_SYNC_MARKER);
 
@@ -158,7 +139,6 @@ class MagentoFinalize extends AbstractCommand
             MagentoOptions::GRUNT_COMPILE => MagentoOptions::get(MagentoOptions::GRUNT_COMPILE),
             MagentoOptions::DI_COMPILE => MagentoOptions::get(MagentoOptions::DI_COMPILE),
             MagentoOptions::CRON_RUN => MagentoOptions::get(MagentoOptions::CRON_RUN),
-            MagentoOptions::WARM_UP_STOREFRONT => MagentoOptions::get(MagentoOptions::WARM_UP_STOREFRONT),
             DbOptions::HOST => DbOptions::get(DbOptions::HOST),
             DbOptions::USER => DbOptions::get(DbOptions::USER),
             DbOptions::PASSWORD => DbOptions::get(DbOptions::PASSWORD),
@@ -166,30 +146,6 @@ class MagentoFinalize extends AbstractCommand
             MagentoOptions::STATE_PATH => MagentoOptions::get(MagentoOptions::STATE_PATH),
             MagentoOptions::ENABLE_SYNC_MARKER => MagentoOptions::get(MagentoOptions::ENABLE_SYNC_MARKER)
         ];
-    }
-
-    /**
-     * Get Magento url from the db
-     *
-     * @param InputInterface $input
-     * @return string
-     */
-    private function getMagentoUrl(InputInterface $input)
-    {
-        $dbConnection = Db::getConnection(
-            $input->getOption(DbOptions::HOST),
-            $input->getOption(DbOptions::USER),
-            $input->getOption(DbOptions::PASSWORD),
-            $input->getOption(DbOptions::NAME)
-        );
-        $statement = $dbConnection->prepare(
-            'SELECT `value` FROM `core_config_data` WHERE `scope`=? AND `scope_id`=? AND `path`=? LIMIT 1'
-        );
-        $statement->bindParam(1, $this->dbConfigScope, \PDO::PARAM_STR);
-        $statement->bindParam(2, $this->dbConfigScopeId, \PDO::PARAM_INT);
-        $statement->bindParam(3, $this->dbConfigPath, \PDO::PARAM_STR);
-        $statement->execute();
-        return $statement->fetch()['value'];
     }
 
     /**

@@ -14,7 +14,7 @@ class ModuleExistence
     {
         $moduleExist = exec(
             sprintf(
-                'cd %s && php bin/magento module:status | grep %s',
+                'cd %s && magento module:status | grep %s',
                 $path,
                 $moduleName
             )
