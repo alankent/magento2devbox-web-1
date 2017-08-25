@@ -70,6 +70,9 @@ ADD conf/clean-generated /home/magento2/bin
 # Cron install helper script
 ADD conf/cron-install /home/magento2/bin
 
+# Varnish install helper script
+ADD conf/varnish-install /home/magento2/bin
+
 ENV PATH $PATH:/home/magento2/scripts/:/home/magento2/.magento-cloud/bin:/var/www/magento2/bin
 
 ENV WEBROOT_PATH /var/www/magento2

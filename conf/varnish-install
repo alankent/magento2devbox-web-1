@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Turn on Varnish in Magento.
+mysql -e "INSERT INTO core_config_data ( scope, scope_id, path, value ) VALUES ( 'default', '0', 'system/full_page_cache/caching_application', '2') ON DUPLICATE KEY UPDATE value = 2;"
+
