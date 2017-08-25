@@ -6,28 +6,28 @@ RUN mkdir /install
 
 # Install some commonly used commands.
 ADD install/utilities.sh /install
-RUN bash -c /install/utilities.sh
+RUN bash /install/utilities.sh
 
 # Create a 'magento2' account
 ADD install/create-magento2-user.sh /install
-RUN bash -c /install/create-magento2-user.sh
+RUN bash /install/create-magento2-user.sh
 
 # Add Unison
 ADD install/unison.sh /install
-RUN bash -c /install/unison.sh
+RUN bash /install/unison.sh
 
 # Set up PHP
 #ENV PHP_EXTRA_CONFIGURE_ARGS="--enable-fpm --with-fpm-user=magento2 --with-fpm-group=magento2"
 ADD install/php.sh /install
-RUN bash -c /install/php.sh
+RUN bash /install/php.sh
 
 # Install NodeJS, Gulp, Grunt, ...
 ADD install/nodejs.sh /install
-RUN bash -c /install/nodejs.sh
+RUN bash /install/nodejs.sh
 
 # Install Apache
 ADD install/apache.sh /install
-RUN bash -c /install/apache.sh
+RUN bash /install/apache.sh
 
 # Apache config
 ADD conf/apache-default.conf /etc/apache2/sites-enabled/apache-default.conf
