@@ -1,0 +1,7 @@
+#!/bin/sh
+
+cd /var/www/magento2
+rm -rf var/* generated/* pub/static/*
+
+magento cache:flush
+magento cache:clean

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+ON=/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+OFF=$ON-DISABLED
+
+if [[ ! -f $ON ]]; then
+    sudo mv $OFF $ON
+fi
