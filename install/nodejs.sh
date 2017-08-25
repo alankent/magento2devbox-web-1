@@ -13,4 +13,5 @@ curl -sL https://deb.nodesource.com/setup_8.x | bash -
 apt-get install -y nodejs
 npm update -g npm
 npm install -g grunt-cli
-npm install -g gulp
+npm install -g gulp-cli
+npm install -g browser-sync
