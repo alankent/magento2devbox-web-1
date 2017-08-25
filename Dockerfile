@@ -57,32 +57,28 @@ ADD conf/.unison/magento2.prf /home/magento2/.unison/magento2.prf
 # Add Magento cloud CLI
 RUN curl -sS https://accounts.magento.cloud/cli/installer -o /home/magento2/installer
 
-# XDebug on/off scripts
+# Install some helper scripts (might turn into CLI commands one day)
 RUN mkdir -p /home/magento2/bin
+
+# XDebug on/off scripts
 ADD conf/xdebug-on /home/magento2/bin
 ADD conf/xdebug-off /home/magento2/bin
 
-# Remove all generated files
+# Remove all generated files helper script
 ADD conf/clean-generated /home/magento2/bin
+
+# Cron install helper script
+ADD conf/cron-install /home/magento2/bin
 
 ENV PATH $PATH:/home/magento2/scripts/:/home/magento2/.magento-cloud/bin:/var/www/magento2/bin
 
 ENV WEBROOT_PATH /var/www/magento2
 
-# Magento initialization helper scripts
-COPY scripts/ /home/magento2/scripts/
-RUN sed -i 's/^/;/' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
- && cd /home/magento2/scripts \
- && composer install \
- && chmod +x /home/magento2/scripts/m2init \
- && sed -i 's/^;;*//' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-
 # Fix up Magento directory file ownerships.
 RUN chown -R magento2:magento2 /home/magento2 \
- && chown -R magento2:magento2 /var/www/magento2 \
- && chmod 755 /home/magento2/scripts/bin/magento-cloud-login
+ && chown -R magento2:magento2 /var/www/magento2
 
-
+# Add the container entrypoint script.
 ADD conf/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
