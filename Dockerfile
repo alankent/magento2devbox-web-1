@@ -73,7 +73,7 @@ ADD conf/cron-install /home/magento2/bin
 ADD conf/varnish-install /home/magento2/bin
 
 # Set executable bits on shell scripts
-RUN chmod +x /home/magento/bin/*
+RUN chmod +x /home/magento2/bin/*
 ENV PATH $PATH:/home/magento2/scripts/:/home/magento2/.magento-cloud/bin:/var/www/magento2/bin
 
 # Fix up Magento directory file ownerships.
