@@ -17,7 +17,6 @@ ADD install/unison.sh /install
 RUN bash /install/unison.sh
 
 # Set up PHP
-#ENV PHP_EXTRA_CONFIGURE_ARGS="--enable-fpm --with-fpm-user=magento2 --with-fpm-group=magento2"
 ADD install/php.sh /install
 RUN bash /install/php.sh
 
@@ -73,9 +72,9 @@ ADD conf/cron-install /home/magento2/bin
 # Varnish install helper script
 ADD conf/varnish-install /home/magento2/bin
 
+# Set executable bits on shell scripts
+RUN chmod +x /home/magento/bin/*
 ENV PATH $PATH:/home/magento2/scripts/:/home/magento2/.magento-cloud/bin:/var/www/magento2/bin
-
-ENV WEBROOT_PATH /var/www/magento2
 
 # Fix up Magento directory file ownerships.
 RUN chown -R magento2:magento2 /home/magento2 \
