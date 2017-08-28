@@ -20,4 +20,6 @@ EOF
 
 fi
 
+mkdir /var/supervisord
+cd /var/supervisord
 supervisord -n -c /etc/supervisord.conf
