@@ -21,7 +21,6 @@ echo 'export COMPOSER_HOME=${HOME}/.composer' >> /home/magento2/.bashrc
 echo 'export EDITOR=vi' >> /home/magento2/.bashrc
 echo 'PS1=m2$\ ' >> /home/magento2/.bashrc
 echo ':set ai expandtab sw=4' > /home/magento2/.vimrc
-echo 'if [ $PPID == 0 ]; then exec sudo -u magento2 bash ; fi' >> /root/.bashrc
 
 # Delete user password to connect with ssh with empty password
 passwd magento2 -d
