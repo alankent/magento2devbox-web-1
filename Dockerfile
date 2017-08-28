@@ -78,7 +78,7 @@ ENV PATH $PATH:/home/magento2/scripts/:/home/magento2/.magento-cloud/bin:/var/ww
 
 # Fix up Magento directory file ownerships.
 RUN chown -R magento2:magento2 /home/magento2 \
- && chown -R magento2:magento2 /var/www/magento2
+ && chown -R magento2:magento2 /var/www
 
 # Add the container entrypoint script.
 ADD conf/entrypoint.sh /usr/local/bin/entrypoint.sh
