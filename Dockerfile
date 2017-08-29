@@ -80,6 +80,11 @@ ENV PATH $PATH:/home/magento2/scripts/:/home/magento2/.magento-cloud/bin:/var/ww
 RUN chown -R magento2:magento2 /home/magento2 \
  && chown -R magento2:magento2 /var/www
 
+# HACK: Work around PHP Storm 2017.2 bug for remote interpreters SSH Credentials
+RUN mkdir /opt/.phpstorm_helpers \
+ && chmod 777 /opt/.phpstorm_helpers \
+ && chown magento2:magento2 /opt/.phpstorm_helpers
+
 # Add the container entrypoint script.
 ADD conf/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
