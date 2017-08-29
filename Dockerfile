@@ -89,7 +89,7 @@ RUN mkdir /opt/.phpstorm_helpers \
 ADD conf/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-EXPOSE 80 22 3000 3001 5000 44100
+EXPOSE 80 22 3000 3001 5000 9001 44100
 WORKDIR /home/magento2
 
 ENV SHELL /bin/bash
