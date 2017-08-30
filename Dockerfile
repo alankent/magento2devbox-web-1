@@ -73,12 +73,12 @@ ADD conf/cron-install /home/magento2/bin
 # Varnish install helper script
 ADD conf/varnish-install /home/magento2/bin
 
-# Set executable bits on shell scripts
-RUN chmod +x /home/magento2/bin/*
-
 # Fix up Magento directory file ownerships.
 RUN chown -R magento2:magento2 /home/magento2 \
  && chown -R magento2:magento2 /var/www
+
+# Set executable bits on shell scripts
+RUN chmod +x /home/magento2/bin/*
 
 # HACK: Work around PHP Storm 2017.2 bug for remote interpreters SSH Credentials
 RUN mkdir /opt/.phpstorm_helpers \

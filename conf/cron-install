@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ ! -n $(crontab -l) ]]; then
+if [[ ! -n $(crontab -l || true) ]]; then
     echo "Your crontab file is not empty. Please review the current contents"
     echo "using 'crontab -l' and then remove using 'crontab -r' before running"
     echo "this script, or merge the new entries by hand using 'crontab -e'."
