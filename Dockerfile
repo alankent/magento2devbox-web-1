@@ -28,6 +28,10 @@ RUN bash /install/nodejs.sh
 ADD install/apache.sh /install
 RUN bash /install/apache.sh
 
+# Install Magento-Cloud CLI
+ADD install/magento-cloud /install
+RUN bash /install/magento-cloud
+
 # Apache config
 ADD conf/apache-default.conf /etc/apache2/sites-enabled/apache-default.conf
 
@@ -53,9 +57,6 @@ ADD conf/supervisord.conf /etc/supervisord.conf
 # unison script
 ADD conf/.unison/magento2.prf /home/magento2/.unison/magento2.prf
 
-# Add Magento cloud CLI
-RUN curl -sS https://accounts.magento.cloud/cli/installer -o /home/magento2/installer
-
 # Install some helper scripts (might turn into CLI commands one day)
 RUN mkdir -p /home/magento2/bin
 
@@ -74,7 +75,6 @@ ADD conf/varnish-install /home/magento2/bin
 
 # Set executable bits on shell scripts
 RUN chmod +x /home/magento2/bin/*
-ENV PATH $PATH:/home/magento2/scripts/:/home/magento2/.magento-cloud/bin:/var/www/magento2/bin
 
 # Fix up Magento directory file ownerships.
 RUN chown -R magento2:magento2 /home/magento2 \

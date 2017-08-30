@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -x
+set -e
+
+sudo -u magento2 sh -c "cd /tmp && (curl -sS https://accounts.magento.cloud/cli/installer | php)"
+
+echo 'export PATH=${PATH}:${HOME}/.magento-cloud/bin' >> /home/magento2/.bashrc
+
+# magento-cloud has /usr/bin/php hard coded.
+ln -s /usr/local/bin/php /usr/bin/php

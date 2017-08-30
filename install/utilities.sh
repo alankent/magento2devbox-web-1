@@ -24,6 +24,7 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y \
       vim \
       nano \
       telnet \
+      net-tools \
       openssh-server \
       supervisor \
       mysql-client \
