@@ -1,12 +1,5 @@
 #!/bin/bash
 
-if [[ ! -n $(crontab -l || true) ]]; then
-    echo "Your crontab file is not empty. Please review the current contents"
-    echo "using 'crontab -l' and then remove using 'crontab -r' before running"
-    echo "this script, or merge the new entries by hand using 'crontab -e'."
-    exit 1
-fi
-
 cat <<EOF | crontab -
 * * * * * /usr/local/bin/php /var/www/magento2/bin/magento cron:run | grep -v "Ran jobs by schedule" >> /var/www/magento2/var/log/magento.cron.log
 * * * * * /usr/local/bin/php /var/www/magento2/update/cron.php >> /var/www/magento2/var/log/update.cron.log
