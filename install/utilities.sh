@@ -12,6 +12,7 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y \
       sudo \
       wget \
       unzip \
+      bzip2 \
       cron \
       curl \
       libmcrypt-dev \
