@@ -22,7 +22,7 @@ echo 'export PATH=${PATH}:${HOME}/bin' >> /home/magento2/.bashrc
 echo 'export TERM=${TERM:?xterm}' >> /home/magento2/.bashrc
 echo 'export COMPOSER_HOME=${HOME}/.composer' >> /home/magento2/.bashrc
 echo 'export EDITOR=vi' >> /home/magento2/.bashrc
-echo 'PS1=m2$\ ' >> /home/magento2/.bashrc
+echo 'export PS1=\\u@\\h:\\w\\$\ ' >> /home/magento2/.bashrc
 echo ':set ai expandtab sw=4' > /home/magento2/.vimrc
 
 # Delete user password to connect with ssh with empty password
