@@ -73,6 +73,13 @@ ADD conf/cron-install /home/magento2/bin
 # Varnish install helper script
 ADD conf/varnish-install /home/magento2/bin
 
+# Initial scripts
+COPY scripts/ /home/magento2/scripts/
+RUN /bin/bash /home/magento2/bin/xdebug-off \
+    && cd /home/magento2/scripts && composer install && chmod +x /home/magento2/scripts/m2init \
+    && /bin/bash /home/magento2/bin/xdebug-on \
+    && ln -s /home/magento2/scripts/m2init /home/magento2/bin/m2init
+
 # Fix up Magento directory file ownerships.
 RUN chown -R magento2:magento2 /home/magento2 \
  && chown -R magento2:magento2 /var/www
